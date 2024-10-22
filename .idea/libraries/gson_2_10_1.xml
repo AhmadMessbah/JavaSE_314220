@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="gson-2.10.1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/src/mft/lib/gson-2.10.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/src/mft/lib/log4j-1.2.17.jar!/" />
+      <root url="jar://$PROJECT_DIR$/src/mft/lib/lombok-1.18.24.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
