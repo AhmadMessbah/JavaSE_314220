@@ -25,6 +25,19 @@ public class Payment {
         return String.format("%s,%s,%s,%s,%s,%s", id,title,amount,dateTime,description,paymentType);
     }
 
+    public Payment(int id,String title, int amount, String dateTime, String description, PaymentType paymentType) {
+        String[] payment = title.split(",");
+        this.id = Integer.parseInt(payment[0]);
+        this.title = payment[1];
+        this.amount = amount[2];
+        this.dateTime = dateTime[3];
+        this.description = description[4];
+        this.paymentType = paymentType[5];
+
+
+    }
+
+
     @Override
     public String toString() {
         Gson gson = new Gson();
