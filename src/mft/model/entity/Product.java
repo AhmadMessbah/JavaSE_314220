@@ -21,13 +21,12 @@ public class Product {
     private int quantity;
     private Category category;
     private LocalDate expireDate;
-    private boolean discount;
+    private int discount;
     private boolean catalogue;
     private boolean image;
     private TransactionType transactionType;
 
     public Product(String data) {
-//        todo : error
         String[] productData = data.split(",");
         id = Integer.parseInt(productData[0]);
         name = productData[1];
@@ -35,7 +34,7 @@ public class Product {
         quantity = Integer.parseInt(productData[3]);
         category = Category.valueOf(productData[4]);
         expireDate = LocalDate.parse(productData[5]);
-        discount = Integer.parseInt(productData[6]) != 0;
+        discount = Integer.parseInt(productData[6]);
         catalogue = Boolean.parseBoolean(productData[7]);
         image = Boolean.parseBoolean(productData[8]);
         transactionType = TransactionType.valueOf(productData[9]);

@@ -13,9 +13,9 @@ public class ProductRepository {
         file.delete();
         file.createNewFile();
         FileWriter fileWriter = new FileWriter(file);
-        fileWriter.write("id,name,price,quantity,category,expireDate,discount,catalogue,image,transaction_type");
+        fileWriter.write("id,name,price,quantity,category,expireDate,discount,catalogue,image,transaction_type\n");
         for (Product product : productList) {
-            fileWriter.write(product.toCsv());
+            fileWriter.write(product.toCsv()+"\n");
         }
         fileWriter.close();
     }

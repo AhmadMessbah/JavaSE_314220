@@ -22,7 +22,7 @@ public class ProductController implements Initializable {
     private List<Product> productList = new ArrayList<>();
 
     @FXML
-    private TextField idTxt,nameTxt,priceTxt,quantityTxt,discountTxt;
+    private TextField idTxt, nameTxt, priceTxt, quantityTxt, discountTxt;
 
     @FXML
     private Button addBtn;
@@ -43,7 +43,7 @@ public class ProductController implements Initializable {
     private TableView<Product> productTbl;
 
     @FXML
-    private TableColumn<Product, Integer> idCol, priceCol,quantityCol;
+    private TableColumn<Product, Integer> idCol, priceCol, quantityCol;
 
     @FXML
     private TableColumn<Product, String> nameCol;
@@ -53,7 +53,7 @@ public class ProductController implements Initializable {
         resetForm();
 
         addBtn.setOnAction(event -> {
-            try{
+            try {
                 RadioButton radioButton = (RadioButton) typeToggleGroup.getSelectedToggle();
                 Product product =
                         Product
@@ -62,7 +62,7 @@ public class ProductController implements Initializable {
                                 .name(nameTxt.getText())
                                 .price(Integer.parseInt(priceTxt.getText()))
                                 .quantity(Integer.parseInt(quantityTxt.getText()))
-                                .discount((Integer.parseInt(discountTxt.getText()) != 0))
+                                .discount((Integer.parseInt(discountTxt.getText())))
                                 .category(Category.valueOf(categoryCmb.getSelectionModel().getSelectedItem()))
                                 .transactionType(TransactionType.valueOf(radioButton.getText()))
                                 .expireDate(expireDate.getValue())
@@ -74,33 +74,51 @@ public class ProductController implements Initializable {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "Saved Successful");
                 alert.show();
                 resetForm();
-            }catch (Exception e){
+            } catch (Exception e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
                 alert.show();
             }
         });
+
+        productTbl.setOnMouseClicked(event -> {
+           Product product = productTbl.getSelectionModel().getSelectedItem();
+           idTxt.setText(String.valueOf(product.getId()));
+           nameTxt.setText(product.getName());
+           priceTxt.setText(String.valueOf(product.getPrice()));
+           quantityTxt.setText(String.valueOf(product.getQuantity()));
+           discountTxt.setText(String.valueOf(product.getDiscount()));
+           expireDate.setValue(product.getExpireDate());
+           imageChk.setSelected(product.isImage());
+           catalogueChk.setSelected(product.isCatalogue());
+        });
     }
 
-    private void resetForm(){
-        id++;
-        for (Category value : Category.values()) {
-            categoryCmb.getItems().add(value.toString());
+    private void resetForm() {
+        try {
+            id++;
+            for (Category value : Category.values()) {
+                categoryCmb.getItems().add(value.toString());
+            }
+            categoryCmb.getSelectionModel().select(2);
+
+            expireDate.setValue(LocalDate.now());
+
+            imageChk.setSelected(true);
+
+            idTxt.setText(String.valueOf(id));
+            nameTxt.clear();
+            priceTxt.clear();
+            quantityTxt.clear();
+            discountTxt.setText("0");
+            productList = ProductService.findAll();
+            refreshTable(productList);
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
+            alert.show();
         }
-        categoryCmb.getSelectionModel().select(2);
-
-        expireDate.setValue(LocalDate.now());
-
-        imageChk.setSelected(true);
-
-        idTxt.setText(String.valueOf(id));
-        nameTxt.clear();
-        priceTxt.clear();
-        quantityTxt.clear();
-        discountTxt.setText("0");
-        refreshTable(productList);
     }
 
-    private void refreshTable(List<Product> productList){
+    private void refreshTable(List<Product> productList) {
         ObservableList<Product> observableList = FXCollections.observableList(productList);
 
         idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
