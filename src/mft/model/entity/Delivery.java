@@ -1,3 +1,7 @@
+package mft.model.entity;
+
+import mft.model.entity.enums.DeliveryStatus;
+
 import java.time.LocalDateTime;
 
 public class Delivery {
