@@ -7,13 +7,19 @@ public class CustomerTest {
         Customer customer =
                 Customer
                         .builder()
-                        .id()
+                        .id(1)
+                        .name("babak")
+                        .familyName("oveisi")
+                        .username("admin")
+                        .password("admin")
+                        .phone("09356207032")
+                        .active(true)
                         .build();
 
         System.out.println(customer.toCsv());
 
 
-        Customer c1 = new Customer();
+        Customer c1 = new Customer(customer.toCsv());
         System.out.println(c1);
     }
 }
