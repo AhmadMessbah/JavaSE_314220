@@ -2,7 +2,6 @@ package mft.model.entity;
 
 import lombok.*;
 import com.google.gson.Gson;
-import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 @NoArgsConstructor
