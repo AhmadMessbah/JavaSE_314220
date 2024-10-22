@@ -8,6 +8,8 @@ public class PaymentTest {
                 Payment
                         .builder()
                         .id(1)
+                        .title("pardakhte ...")
+                        .amount(1000)
                         .build();
 
         System.out.println(payment.toCsv());
