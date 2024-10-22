@@ -1,0 +1,3 @@
+id,name,price,quantity,category,expireDate,discount,catalogue,image,transaction_type
+1,mobile,1000,2,Masrafi,2024-10-22,0,false,true,outcome
+2,laptop,2500,2,Masrafi,2024-10-22,0,true,true,outcome
