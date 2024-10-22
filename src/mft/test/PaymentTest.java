@@ -15,7 +15,7 @@ public class PaymentTest {
                         .amount(3)
                         .dateTime(String.valueOf(LocalDateTime.now()))
                         .description("iphone16")
-                        .paymentType()
+                        .paymentType(PaymentType.Cash)
                         .build();
 
         System.out.println(payment.toCsv());
