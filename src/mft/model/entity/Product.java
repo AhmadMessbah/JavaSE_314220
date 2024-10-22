@@ -27,6 +27,7 @@ public class Product {
     private TransactionType transactionType;
 
     public Product(String data) {
+//        todo : error
         String[] productData = data.split(",");
         id = Integer.parseInt(productData[0]);
         name = productData[1];

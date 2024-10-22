@@ -9,6 +9,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import mft.model.entity.Product;
 import mft.model.entity.enums.Category;
 import mft.model.entity.enums.TransactionType;
+import mft.model.service.ProductService;
 
 import java.net.URL;
 import java.time.LocalDate;
@@ -52,24 +53,31 @@ public class ProductController implements Initializable {
         resetForm();
 
         addBtn.setOnAction(event -> {
-            RadioButton radioButton = (RadioButton) typeToggleGroup.getSelectedToggle();
-            Product product =
-                    Product
-                            .builder()
-                            .id(Integer.parseInt(idTxt.getText()))
-                            .name(nameTxt.getText())
-                            .price(Integer.parseInt(priceTxt.getText()))
-                            .quantity(Integer.parseInt(quantityTxt.getText()))
-                            .discount((Integer.parseInt(discountTxt.getText()) != 0))
-                            .category(Category.valueOf(categoryCmb.getSelectionModel().getSelectedItem()))
-                            .transactionType(TransactionType.valueOf(radioButton.getText()))
-                            .expireDate(expireDate.getValue())
-                            .image(imageChk.isSelected())
-                            .catalogue(catalogueChk.isSelected())
-                            .build();
-            productList.add(product);
-
-            resetForm();
+            try{
+                RadioButton radioButton = (RadioButton) typeToggleGroup.getSelectedToggle();
+                Product product =
+                        Product
+                                .builder()
+                                .id(Integer.parseInt(idTxt.getText()))
+                                .name(nameTxt.getText())
+                                .price(Integer.parseInt(priceTxt.getText()))
+                                .quantity(Integer.parseInt(quantityTxt.getText()))
+                                .discount((Integer.parseInt(discountTxt.getText()) != 0))
+                                .category(Category.valueOf(categoryCmb.getSelectionModel().getSelectedItem()))
+                                .transactionType(TransactionType.valueOf(radioButton.getText()))
+                                .expireDate(expireDate.getValue())
+                                .image(imageChk.isSelected())
+                                .catalogue(catalogueChk.isSelected())
+                                .build();
+                productList.add(product);
+                ProductService.saveAll(productList);
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Saved Successful");
+                alert.show();
+                resetForm();
+            }catch (Exception e){
+                Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
+                alert.show();
+            }
         });
     }
 
