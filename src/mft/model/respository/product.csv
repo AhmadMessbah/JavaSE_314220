@@ -1,0 +1,3 @@
+id,name,price,quantity,category,expireDate,discount,catalogue,image,transaction_type
+1,mobile,1000,3,Electrical,2024-12-15,0,true,true,outcome
+2,mobile,7000,3,Electrical,2024-12-15,0,true,true,outcome
