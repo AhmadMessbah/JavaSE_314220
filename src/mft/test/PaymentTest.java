@@ -12,6 +12,7 @@ public class PaymentTest {
                         .builder()
                         .id(1)
                         .title("Mobile")
+                        .price(300)
                         .amount(3)
                         .dateTime(String.valueOf(LocalDateTime.now()))
                         .description("iphone16")
