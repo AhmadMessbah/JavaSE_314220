@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="497.0" prefWidth="631.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mft.controller.BranchController">
+   <children>
+      <GridPane layoutX="46.0" layoutY="39.0" prefHeight="381.0" prefWidth="200.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label text="Id" />
+            <Label text="title" GridPane.rowIndex="1" />
+            <Label text="address" GridPane.rowIndex="2" />
+            <Label text="phone" GridPane.rowIndex="3" />
+            <Label text="area" GridPane.rowIndex="4" />
+            <Label text="active" GridPane.rowIndex="5" />
+            <TextField fx:id="idTxt" editable="false" GridPane.columnIndex="1" />
+            <TextField fx:id="titleTxt" promptText="Enter Name" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="addressTxt" promptText="Enter Address" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="phoneTxt" promptText="Enter Phone Number" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <TextField fx:id="areaTxt" promptText="Enter Area" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <CheckBox fx:id="activeCHBX" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="0.0" textAlignment="JUSTIFY" GridPane.columnIndex="1" GridPane.rowIndex="5">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </CheckBox>
+         </children>
+      </GridPane>
+      <Button fx:id="addBtn" layoutX="93.0" layoutY="444.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="118.0" text="Add To Basket" />
+      <TableView fx:id="branchTable" layoutX="299.0" layoutY="33.0" prefHeight="442.0" prefWidth="303.0">
+        <columns>
+          <TableColumn fx:id="idC" prefWidth="75.0" text="Id" />
+          <TableColumn fx:id="titleC" prefWidth="75.0" text="Title" />
+            <TableColumn fx:id="addressC" prefWidth="75.0" text="Address" />
+            <TableColumn fx:id="phoneC" prefWidth="75.0" text="Phone" />
+        </columns>
+      </TableView>
+   </children>
+</Pane>
