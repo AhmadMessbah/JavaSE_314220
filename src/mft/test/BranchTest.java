@@ -2,7 +2,6 @@ package mft.test;
 
 import mft.model.entity.Branch;
 import mft.model.service.BranchService;
-import mft.model.service.ProductService;
 
 import java.util.ArrayList;
 import java.util.List;
