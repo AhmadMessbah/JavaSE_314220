@@ -14,6 +14,9 @@ create table products
 
 create sequence product_seq start with 1 increment by 1;
 
+-- mysql
+-- id               number primary key auto_increment
+
 -- Save
 -- insert into products
 --    (id, name, price, quantity, category, expire_date, discount, catalogue, image, transaction_type)
