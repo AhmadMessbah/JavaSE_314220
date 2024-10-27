@@ -3,33 +3,36 @@ package mft.model.respository;
 import mft.model.entity.Payment;
 
 import java.io.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class PaymentRepository {
-    public void saveAll(List<Payment> paymentList) throws IOException {
-        File file = new File("payments.csv");
-        file.delete();
-        file.createNewFile();
-        FileWriter fileWriter = new FileWriter(file);
-        fileWriter.write("id,title,price,amount,dateTime,description,paymentType");
-        for (Payment payment : paymentList) {
-            fileWriter.write(payment.toCsv());
+    public void connect() throws SQLException {
+//        Connection connection;
+
+/**        public void connect() throws Exception{
+            connection =
+                    DriverManager.getConnection(
+                            "jdbc:oracle:thin:@localhost:1521:xe",
+                            "javase",
+                            "java123"
+                    );
         }
-        fileWriter.close();
+
+        public void disconnect() throws SQLException {
+            connection.close();
     }
-//todo
-    public List<Payment> findAll() throws Exception {
-        File file = new File("payments.csv");
-        Scanner scanner = new Scanner(file);
-        List<Payment> paymentList = new ArrayList<>();
-        scanner.nextLine();
-        while (scanner.hasNextLine()) {
-            String line = scanner.nextLine();
-//            Payment payment = new Payment(line);
-//            paymentList.add(payment);
-        }
-        return paymentList;
-    }
-}
+
+    public void save(Payment payment) {}
+    public void edit(Payment payment) {}
+    public void delete(Payment payment) {}
+
+    public Payment findById(int id) {}
+    public List<Payment> findAll() {}
+
+ **/} }
+

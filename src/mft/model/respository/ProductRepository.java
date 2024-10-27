@@ -27,6 +27,11 @@ public class ProductRepository {
 
 //    // Transaction
     public void save(Product product) throws SQLException {
+//        mysql
+//        "insert into products" +
+//                " (name, price, quantity, category, expire_date, discount, catalogue, image, transaction_type)" +
+//                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
+
         connect();
         PreparedStatement preparedStatement =
                 connection.prepareStatement(
