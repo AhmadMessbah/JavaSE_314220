@@ -48,10 +48,11 @@ public class ProductRepository {
 
 
     public void edit(Product product) throws SQLException {
+        connect();
         PreparedStatement preparedStatement =
                 connection.prepareStatement(
                         "update products" +
-                                " set name=?, price=?, quantity=?, category=?, expire_date=?, discount=?, catalogue=?, image=?, transaction_type=?)" +
+                                " set name=?, price=?, quantity=?, category=?, expire_date=?, discount=?, catalogue=?, image=?, transaction_type=?" +
                                 " where id=?"
                 );
         preparedStatement.setString(1, product.getName());
@@ -65,15 +66,18 @@ public class ProductRepository {
         preparedStatement.setString(9, product.getTransactionType().toString());
         preparedStatement.setInt(10, product.getId());
         preparedStatement.execute();
+        disconnect();
     }
 
     public void remove(int id) throws SQLException {
+        connect();
         PreparedStatement preparedStatement =
                 connection.prepareStatement(
                         "delete from products where id=?"
                 );
         preparedStatement.setInt(1, id);
         preparedStatement.execute();
+        disconnect();
     }
 
 //    // Report

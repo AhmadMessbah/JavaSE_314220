@@ -12,7 +12,7 @@ import java.util.List;
 
 public class ProductTest {
     public static void main(String[] args) throws Exception {
-        System.out.println(ProductService.findAll());
+//        System.out.println(ProductService.findAll());
 
         Product product1 =
                 Product
@@ -41,8 +41,8 @@ public class ProductTest {
         productList.add(product1);
         productList.add(product2);
 
-        ProductService.saveAll(productList);
-        System.out.println(ProductService.findAll());
+//        ProductService.saveAll(productList);
+//        System.out.println(ProductService.findAll());
 
         System.out.println(product1);
         System.out.println(product1.toCsv());
