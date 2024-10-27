@@ -1,4 +1,4 @@
-package invoice.controller;
+package mft.controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -19,4 +19,8 @@ public class InvoiceController implements Initializable {
     private List<Invoice> invoicetList = new ArrayList<>();
 
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+
+    }
 }

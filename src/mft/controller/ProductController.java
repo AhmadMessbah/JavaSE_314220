@@ -18,14 +18,11 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class ProductController implements Initializable {
-    private static int id = 0;
-    private List<Product> productList = new ArrayList<>();
-
     @FXML
     private TextField idTxt, nameTxt, priceTxt, quantityTxt, discountTxt;
 
     @FXML
-    private Button addBtn;
+    private Button saveBtn, editBtn, removeBtn;
 
     @FXML
     private ComboBox<String> categoryCmb;
@@ -52,7 +49,34 @@ public class ProductController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         resetForm();
 
-        addBtn.setOnAction(event -> {
+        saveBtn.setOnAction(event -> {
+            try {
+                RadioButton radioButton = (RadioButton) typeToggleGroup.getSelectedToggle();
+                Product product =
+                        Product
+                                .builder()
+                                .name(nameTxt.getText())
+                                .price(Integer.parseInt(priceTxt.getText()))
+                                .quantity(Integer.parseInt(quantityTxt.getText()))
+                                .discount((Integer.parseInt(discountTxt.getText())))
+                                .category(Category.valueOf(categoryCmb.getSelectionModel().getSelectedItem()))
+                                .transactionType(TransactionType.valueOf(radioButton.getText()))
+                                .expireDate(expireDate.getValue())
+                                .image(imageChk.isSelected())
+                                .catalogue(catalogueChk.isSelected())
+                                .build();
+
+                ProductService.save(product);
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Saved Successful");
+                alert.show();
+                resetForm();
+            } catch (Exception e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
+                alert.show();
+            }
+        });
+
+        editBtn.setOnAction(event -> {
             try {
                 RadioButton radioButton = (RadioButton) typeToggleGroup.getSelectedToggle();
                 Product product =
@@ -69,12 +93,25 @@ public class ProductController implements Initializable {
                                 .image(imageChk.isSelected())
                                 .catalogue(catalogueChk.isSelected())
                                 .build();
-                productList.add(product);
-                ProductService.saveAll(productList);
-                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Saved Successful");
+
+                ProductService.edit(product);
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Edited Successful");
                 alert.show();
                 resetForm();
             } catch (Exception e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
+                alert.show();
+            }
+        });
+
+        removeBtn.setOnAction(event -> {
+            try {
+                ProductService.remove(Integer.parseInt(idTxt.getText()));
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Removed Successful");
+                alert.show();
+                resetForm();
+            } catch (Exception e) {
+                e.printStackTrace();
                 Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
                 alert.show();
             }
@@ -95,7 +132,6 @@ public class ProductController implements Initializable {
 
     private void resetForm() {
         try {
-            id++;
             for (Category value : Category.values()) {
                 categoryCmb.getItems().add(value.toString());
             }
@@ -105,13 +141,13 @@ public class ProductController implements Initializable {
 
             imageChk.setSelected(true);
 
-            idTxt.setText(String.valueOf(id));
+//            idTxt.setText(String.valueOf(id));
             nameTxt.clear();
             priceTxt.clear();
             quantityTxt.clear();
             discountTxt.setText("0");
-            productList = ProductService.findAll();
-            refreshTable(productList);
+//            productList = ProductService.findAll();
+//            refreshTable(productList);
         } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
             alert.show();

@@ -45,7 +45,7 @@
             <Label text="Discount" GridPane.rowIndex="6" />
             <Label text="Options" GridPane.rowIndex="7" />
             <Label text="Transaction Type" GridPane.rowIndex="8" />
-            <TextField fx:id="idTxt" editable="false" GridPane.columnIndex="1" />
+            <TextField fx:id="idTxt" GridPane.columnIndex="1" />
             <TextField fx:id="nameTxt" promptText="Enter Name" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <TextField fx:id="priceTxt" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <TextField fx:id="quantityTxt" GridPane.columnIndex="1" GridPane.rowIndex="3" />
@@ -85,7 +85,7 @@
             </VBox>
          </children>
       </GridPane>
-      <Button fx:id="addBtn" layoutX="93.0" layoutY="444.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="118.0" text="Add To Basket" />
+      <Button fx:id="saveBtn" layoutX="46.0" layoutY="442.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="61.0" text="Save" />
       <TableView fx:id="productTbl" layoutX="299.0" layoutY="33.0" prefHeight="442.0" prefWidth="303.0">
         <columns>
           <TableColumn fx:id="idCol" prefWidth="75.0" text="Id" />
@@ -94,5 +94,7 @@
             <TableColumn fx:id="quantityCol" prefWidth="75.0" text="Quantity" />
         </columns>
       </TableView>
+      <Button fx:id="editBtn" layoutX="116.0" layoutY="442.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="60.0" text="Edit" />
+      <Button fx:id="removeBtn" layoutX="186.0" layoutY="442.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="60.0" text="Remove" />
    </children>
 </Pane>
