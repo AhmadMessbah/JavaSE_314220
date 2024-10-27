@@ -27,8 +27,8 @@ public class PaymentRepository {
         scanner.nextLine();
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
-            Payment payment = new Payment(line);
-            paymentList.add(payment);
+//            Payment payment = new Payment(line);
+//            paymentList.add(payment);
         }
         return paymentList;
     }

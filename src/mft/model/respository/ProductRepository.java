@@ -3,34 +3,86 @@ package mft.model.respository;
 import mft.model.entity.Product;
 
 import java.io.*;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class ProductRepository {
-    public void saveAll(List<Product> productList) throws IOException {
-        File file = new File("product.csv");
-        file.delete();
-        file.createNewFile();
-        FileWriter fileWriter = new FileWriter(file);
-        fileWriter.write("id,name,price,quantity,category,expireDate,discount,catalogue,image,transaction_type\n");
-        for (Product product : productList) {
-            fileWriter.write(product.toCsv()+"\n");
-        }
-        fileWriter.close();
+    private Connection connection;
+
+    public void connect() throws SQLException {
+        connection =
+                DriverManager.getConnection(
+                        "jdbc:oracle:thin:@localhost:1521:xe",
+                        "javase",
+                        "java123"
+                );
     }
 
-    public List<Product> findAll() throws Exception {
-        File file = new File("product.csv");
-        Scanner scanner = new Scanner(file);
-
-        List<Product> productList = new ArrayList<>();
-        scanner.nextLine();
-        while(scanner.hasNextLine()) {
-            String line = scanner.nextLine();
-            Product product = new Product(line);
-            productList.add(product);
-        }
-        return productList;
+    public void disconnect() throws SQLException {
+        connection.close();
     }
+
+//    // Transaction
+    public void save(Product product) throws SQLException {
+        connect();
+        PreparedStatement preparedStatement =
+                connection.prepareStatement(
+                        "insert into products" +
+                                " (id, name, price, quantity, category, expire_date, discount, catalogue, image, transaction_type)" +
+                                " VALUES (product_seq.nextval, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+                );
+        preparedStatement.setString(1, product.getName());
+        preparedStatement.setInt(2, product.getPrice());
+        preparedStatement.setInt(3, product.getQuantity());
+        preparedStatement.setString(4, product.getCategory().toString());
+        preparedStatement.setDate(5, Date.valueOf(product.getExpireDate()));
+        preparedStatement.setInt(6, product.getDiscount());
+        preparedStatement.setBoolean(7, product.isCatalogue());
+        preparedStatement.setBoolean(8, product.isImage());
+        preparedStatement.setString(9, product.getTransactionType().toString());
+        preparedStatement.execute();
+        disconnect();
+    }
+
+
+    public void edit(Product product) throws SQLException {
+        PreparedStatement preparedStatement =
+                connection.prepareStatement(
+                        "update products" +
+                                " set name=?, price=?, quantity=?, category=?, expire_date=?, discount=?, catalogue=?, image=?, transaction_type=?)" +
+                                " where id=?"
+                );
+        preparedStatement.setString(1, product.getName());
+        preparedStatement.setInt(2, product.getPrice());
+        preparedStatement.setInt(3, product.getQuantity());
+        preparedStatement.setString(4, product.getCategory().toString());
+        preparedStatement.setDate(5, Date.valueOf(product.getExpireDate()));
+        preparedStatement.setInt(6, product.getDiscount());
+        preparedStatement.setBoolean(7, product.isCatalogue());
+        preparedStatement.setBoolean(8, product.isImage());
+        preparedStatement.setString(9, product.getTransactionType().toString());
+        preparedStatement.setInt(10, product.getId());
+        preparedStatement.execute();
+    }
+
+    public void remove(int id) throws SQLException {
+        PreparedStatement preparedStatement =
+                connection.prepareStatement(
+                        "delete from products where id=?"
+                );
+        preparedStatement.setInt(1, id);
+        preparedStatement.execute();
+    }
+
+//    // Report
+//    public Product findById(int id) {}
+//
+//    public List<Product> findAll() {}
+//
+//    public List<Product> findByName(String name) {}
+//
+//    public int getCount(int id) {}
+
 }

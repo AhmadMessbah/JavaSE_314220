@@ -10,12 +10,12 @@ import java.util.List;
 public class ProductService {
     public static void saveAll(List<Product> productList) throws IOException {
         ProductRepository repository = new ProductRepository();
-        repository.saveAll(productList);
+//        repository.saveAll(productList);
     }
 
 
     public static List<Product > findAll() throws Exception {
         ProductRepository repository = new ProductRepository();
-        return repository.findAll();
+        return null; // repository.findAll();
     }
 }
