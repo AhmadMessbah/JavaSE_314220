@@ -15,6 +15,7 @@ public class ProductRepository {
         connection =
                 DriverManager.getConnection(
                         "jdbc:oracle:thin:@localhost:1521:xe",
+//                        "jdbc:mysql://localhost:3306/mft" --> mysql
                         "javase",
                         "java123"
                 );
