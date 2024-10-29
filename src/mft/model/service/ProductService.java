@@ -37,7 +37,7 @@ public class ProductService {
         }
     }
 
-    public static Product findByName(String name) throws Exception {
+    public static List<Product> findByName(String name) throws Exception {
         try (ProductRepository repository = new ProductRepository()) {
             return repository.findByName(name);
         }

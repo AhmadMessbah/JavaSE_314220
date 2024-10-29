@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="497.0" prefWidth="631.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mft.controller.ProductController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="503.0" prefWidth="631.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mft.controller.ProductController">
    <children>
       <GridPane layoutX="46.0" layoutY="39.0" prefHeight="381.0" prefWidth="200.0">
         <columnConstraints>
@@ -86,17 +86,18 @@
          </children>
       </GridPane>
       <Button fx:id="saveBtn" layoutX="46.0" layoutY="442.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="61.0" text="Save" />
-      <TableView fx:id="productTbl" layoutX="299.0" layoutY="94.0" prefHeight="381.0" prefWidth="303.0">
+      <TableView fx:id="productTbl" layoutX="299.0" layoutY="48.0" prefHeight="427.0" prefWidth="303.0">
         <columns>
           <TableColumn fx:id="idCol" prefWidth="75.0" text="Id" />
-          <TableColumn fx:id="nameCol" prefWidth="75.0" text="Name" />
-            <TableColumn fx:id="priceCol" prefWidth="75.0" text="Price" />
+          <TableColumn fx:id="nameCol" prefWidth="77.0" text="Name" />
+            <TableColumn fx:id="priceCol" prefWidth="73.0" text="Price" />
             <TableColumn fx:id="quantityCol" prefWidth="75.0" text="Quantity" />
         </columns>
       </TableView>
       <Button fx:id="editBtn" layoutX="116.0" layoutY="442.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="60.0" text="Edit" />
       <Button fx:id="removeBtn" layoutX="186.0" layoutY="442.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="60.0" text="Remove" />
-      <Label layoutX="302.0" layoutY="50.0" text="Find By Name" />
-      <TextField fx:id="findNameTxt" layoutX="400.0" layoutY="46.0" prefHeight="25.0" prefWidth="200.0" />
+      <Label layoutX="302.0" layoutY="19.0" text="Find By Name" />
+      <TextField fx:id="findNameTxt" layoutX="400.0" layoutY="15.0" prefHeight="25.0" prefWidth="200.0" />
+      <Button fx:id="newBtn" layoutX="46.0" layoutY="14.0" mnemonicParsing="false" text="Add New" />
    </children>
 </Pane>

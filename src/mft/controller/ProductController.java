@@ -22,7 +22,7 @@ public class ProductController implements Initializable {
     private TextField idTxt, nameTxt, priceTxt, quantityTxt, discountTxt, findNameTxt;
 
     @FXML
-    private Button saveBtn, editBtn, removeBtn;
+    private Button saveBtn, editBtn, removeBtn, newBtn;
 
     @FXML
     private ComboBox<String> categoryCmb;
@@ -48,6 +48,10 @@ public class ProductController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         resetForm();
+
+        newBtn.setOnAction(event -> {
+            resetForm();
+        });
 
         saveBtn.setOnAction(event -> {
             try {
@@ -111,26 +115,31 @@ public class ProductController implements Initializable {
                 alert.show();
                 resetForm();
             } catch (Exception e) {
-                e.printStackTrace();
                 Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
                 alert.show();
             }
         });
 
-        findNameTxt.setOnKeyReleased(event ->{
-            System.out.println(findNameTxt.getText());
+        findNameTxt.setOnKeyReleased(event -> {
+            try {
+                List<Product> productList = ProductService.findByName(findNameTxt.getText()+"%");
+                refreshTable(productList);
+            } catch (Exception e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
+                alert.show();
+            }
         });
 
         productTbl.setOnMouseClicked(event -> {
-           Product product = productTbl.getSelectionModel().getSelectedItem();
-           idTxt.setText(String.valueOf(product.getId()));
-           nameTxt.setText(product.getName());
-           priceTxt.setText(String.valueOf(product.getPrice()));
-           quantityTxt.setText(String.valueOf(product.getQuantity()));
-           discountTxt.setText(String.valueOf(product.getDiscount()));
-           expireDate.setValue(product.getExpireDate());
-           imageChk.setSelected(product.isImage());
-           catalogueChk.setSelected(product.isCatalogue());
+            Product product = productTbl.getSelectionModel().getSelectedItem();
+            idTxt.setText(String.valueOf(product.getId()));
+            nameTxt.setText(product.getName());
+            priceTxt.setText(String.valueOf(product.getPrice()));
+            quantityTxt.setText(String.valueOf(product.getQuantity()));
+            discountTxt.setText(String.valueOf(product.getDiscount()));
+            expireDate.setValue(product.getExpireDate());
+            imageChk.setSelected(product.isImage());
+            catalogueChk.setSelected(product.isCatalogue());
         });
     }
 
@@ -145,13 +154,12 @@ public class ProductController implements Initializable {
 
             imageChk.setSelected(true);
 
-//            idTxt.setText(String.valueOf(id));
+            idTxt.clear();
             nameTxt.clear();
             priceTxt.clear();
             quantityTxt.clear();
             discountTxt.setText("0");
-//            productList = ProductService.findAll();
-//            refreshTable(productList);
+            refreshTable(ProductService.findAll());
         } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
             alert.show();

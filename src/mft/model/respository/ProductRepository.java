@@ -130,7 +130,7 @@ public class ProductRepository implements AutoCloseable {
         return product;
     }
 
-    public Product findByName(String name) throws SQLException {
+    public List<Product> findByName(String name) throws SQLException {
         connect();
         PreparedStatement preparedStatement =
                 connection.prepareStatement("select * from products where name=?");
@@ -138,9 +138,9 @@ public class ProductRepository implements AutoCloseable {
 
         ResultSet resultset = preparedStatement.executeQuery();
 
-        Product product = null;
-        if (resultset.next()) {
-            product =
+        List<Product> productList = new ArrayList<>();
+        while (resultset.next()) {
+            Product product =
                     Product
                             .builder()
                             .id(resultset.getInt("id"))
@@ -154,8 +154,9 @@ public class ProductRepository implements AutoCloseable {
                             .image(resultset.getBoolean("image"))
                             .transactionType(TransactionType.valueOf(resultset.getString("transaction_type")))
                             .build();
+            productList.add(product);
         }
-        return product;
+        return productList;
     }
 
 //    public int getCount(int id) {}
