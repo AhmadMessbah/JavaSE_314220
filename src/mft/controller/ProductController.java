@@ -6,6 +6,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import mft.model.entity.Product;
 import mft.model.entity.enums.Category;
 import mft.model.entity.enums.TransactionType;
@@ -17,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+@Log4j
 public class ProductController implements Initializable {
     @FXML
     private TextField idTxt, nameTxt, priceTxt, quantityTxt, discountTxt, findNameTxt;
@@ -47,6 +50,8 @@ public class ProductController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        log.debug ("Product Form Loaded");
+
         resetForm();
 
         newBtn.setOnAction(event -> {
@@ -60,8 +65,6 @@ public class ProductController implements Initializable {
                         Product
                                 .builder()
                                 .name(nameTxt.getText())
-                                .price(Integer.parseInt(priceTxt.getText()))
-                                .quantity(Integer.parseInt(quantityTxt.getText()))
                                 .discount((Integer.parseInt(discountTxt.getText())))
                                 .category(Category.valueOf(categoryCmb.getSelectionModel().getSelectedItem()))
                                 .transactionType(TransactionType.valueOf(radioButton.getText()))
@@ -70,11 +73,16 @@ public class ProductController implements Initializable {
                                 .catalogue(catalogueChk.isSelected())
                                 .build();
 
+                product.setPrice(Integer.parseInt(priceTxt.getText()));
+                product.setQuantity(Integer.parseInt(quantityTxt.getText()));
+
                 ProductService.save(product);
+                log.info("Product Saved " + product);
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "Saved Successful");
                 alert.show();
                 resetForm();
             } catch (Exception e) {
+                log.error(e.getMessage());
                 Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
                 alert.show();
             }
@@ -97,12 +105,13 @@ public class ProductController implements Initializable {
                                 .image(imageChk.isSelected())
                                 .catalogue(catalogueChk.isSelected())
                                 .build();
-
                 ProductService.edit(product);
+                log.info("Product Edited " + product);
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "Edited Successful");
                 alert.show();
                 resetForm();
             } catch (Exception e) {
+                log.error(e.getMessage());
                 Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
                 alert.show();
             }
@@ -111,10 +120,12 @@ public class ProductController implements Initializable {
         removeBtn.setOnAction(event -> {
             try {
                 ProductService.remove(Integer.parseInt(idTxt.getText()));
+                log.info("Product Removed By ID =" + idTxt.getText());
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "Removed Successful");
                 alert.show();
                 resetForm();
             } catch (Exception e) {
+                log.error(e.getMessage());
                 Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
                 alert.show();
             }
@@ -124,7 +135,9 @@ public class ProductController implements Initializable {
             try {
                 List<Product> productList = ProductService.findByName(findNameTxt.getText()+"%");
                 refreshTable(productList);
+                log.info("Find Products By Name = " + findNameTxt.getText());
             } catch (Exception e) {
+                log.error(e.getMessage());
                 Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
                 alert.show();
             }

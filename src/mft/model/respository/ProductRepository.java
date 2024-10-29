@@ -1,6 +1,5 @@
 package mft.model.respository;
 
-import com.mysql.cj.protocol.Resultset;
 import mft.model.entity.Product;
 import mft.model.entity.enums.Category;
 import mft.model.entity.enums.TransactionType;
@@ -26,20 +25,27 @@ public class ProductRepository implements AutoCloseable {
     public void save(Product product) throws SQLException {
         connect();
         PreparedStatement preparedStatement =
+                connection.prepareStatement("select product_seq.nextval as next_id from dual");
+        ResultSet resultSet = preparedStatement.executeQuery();
+        resultSet.next();
+        product.setId(resultSet.getInt("next_id"));
+
+        preparedStatement =
                 connection.prepareStatement(
                         "insert into products" +
                                 " (id, name, price, quantity, category, expire_date, discount, catalogue, image, transaction_type)" +
-                                " VALUES (product_seq.nextval, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+                                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
                 );
-        preparedStatement.setString(1, product.getName());
-        preparedStatement.setInt(2, product.getPrice());
-        preparedStatement.setInt(3, product.getQuantity());
-        preparedStatement.setString(4, product.getCategory().toString());
-        preparedStatement.setDate(5, Date.valueOf(product.getExpireDate()));
-        preparedStatement.setInt(6, product.getDiscount());
-        preparedStatement.setBoolean(7, product.isCatalogue());
-        preparedStatement.setBoolean(8, product.isImage());
-        preparedStatement.setString(9, product.getTransactionType().toString());
+        preparedStatement.setInt(1, product.getId());
+        preparedStatement.setString(2, product.getName());
+        preparedStatement.setInt(3, product.getPrice());
+        preparedStatement.setInt(4, product.getQuantity());
+        preparedStatement.setString(5, product.getCategory().toString());
+        preparedStatement.setDate(6, Date.valueOf(product.getExpireDate()));
+        preparedStatement.setInt(7, product.getDiscount());
+        preparedStatement.setBoolean(8, product.isCatalogue());
+        preparedStatement.setBoolean(9, product.isImage());
+        preparedStatement.setString(10, product.getTransactionType().toString());
         preparedStatement.execute();
     }
 
@@ -133,7 +139,7 @@ public class ProductRepository implements AutoCloseable {
     public List<Product> findByName(String name) throws SQLException {
         connect();
         PreparedStatement preparedStatement =
-                connection.prepareStatement("select * from products where name=?");
+                connection.prepareStatement("select * from products where name like ?");
         preparedStatement.setString(1, name);
 
         ResultSet resultset = preparedStatement.executeQuery();
@@ -158,9 +164,6 @@ public class ProductRepository implements AutoCloseable {
         }
         return productList;
     }
-
-//    public int getCount(int id) {}
-
 
     @Override
     public void close() throws Exception {

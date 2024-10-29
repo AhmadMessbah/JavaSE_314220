@@ -26,7 +26,23 @@ public class Product {
     private boolean image;
     private TransactionType transactionType;
 
-    @Override
+    public void setPrice(int price) throws Exception {
+        if (price > 0) {
+            this.price = price;
+        }else{
+            throw new Exception("Price Must Be Positive !!!");
+        }
+    }
+
+    public void setQuantity(int quantity) throws Exception {
+        if (quantity >= 0) {
+            this.quantity = quantity;
+        }else{
+            throw new Exception("Quantity Must Be Positive !!!");
+        }
+
+
+    }   @Override
     public String toString() {
         Gson gson = new Gson();
         return gson.toJson(this);
