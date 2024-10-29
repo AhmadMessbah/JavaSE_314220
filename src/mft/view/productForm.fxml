@@ -45,7 +45,7 @@
             <Label text="Discount" GridPane.rowIndex="6" />
             <Label text="Options" GridPane.rowIndex="7" />
             <Label text="Transaction Type" GridPane.rowIndex="8" />
-            <TextField fx:id="idTxt" GridPane.columnIndex="1" />
+            <TextField fx:id="idTxt" editable="false" GridPane.columnIndex="1" />
             <TextField fx:id="nameTxt" promptText="Enter Name" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <TextField fx:id="priceTxt" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <TextField fx:id="quantityTxt" GridPane.columnIndex="1" GridPane.rowIndex="3" />
