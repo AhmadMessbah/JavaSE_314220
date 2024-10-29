@@ -8,19 +8,17 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import mft.model.entity.Payment;
 import mft.model.entity.enums.PaymentType;
+import mft.model.service.PaymentService;
 
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
 import java.util.ResourceBundle;
 
 public class PaymentController implements Initializable {
-    private List<Payment> paymentList = new ArrayList<>();
     @FXML
-    private TextField idTxt,titleTxt,priceTxt,amounttxt,descriptionTxt;
+    private TextField idTxt,titleTxt,priceTxt,amountTxt,descriptionTxt;
     @FXML
     private DatePicker expireDate;
     @FXML
@@ -32,7 +30,7 @@ public class PaymentController implements Initializable {
     @FXML
     private TableColumn<Payment,Integer> priceCol,amountCol,AmountPayableCol;
     @FXML
-    private Button calculateBtn;
+    private Button calculateBtn,editBtn,deleteBtn;
 
 
     @Override
@@ -40,23 +38,80 @@ public class PaymentController implements Initializable {
         resetForm();
 
         calculateBtn.setOnAction(event -> {
-            Payment payment =
-                    Payment
-                            .builder()
-                            .id(Integer.parseInt(idTxt.getText()))
-                            .title(titleTxt.getText())
-                            .price(Integer.parseInt(priceTxt.getText()))
-                            .amount(Integer.parseInt(amounttxt.getText()))
-                            .dateTime(String.valueOf(expireDate.getValue()))
-                            .description(descriptionTxt.getText())
-                            .paymentType(PaymentType.valueOf(paymentTypeCmb.getSelectionModel().getSelectedItem()))
-                            .build();
-            paymentList.add(payment);
-            resetForm();
-//            System.out.println(payment);
+            try {
+                Payment payment =
+                        Payment
+                                .builder()
+                                .id(Integer.parseInt(idTxt.getText()))
+                                .title(titleTxt.getText())
+                                .price(Integer.parseInt(priceTxt.getText()))
+                                .amount(Integer.parseInt(amountTxt.getText()))
+                                .dateTime(String.valueOf(expireDate.getValue()))
+                                .description(descriptionTxt.getText())
+                                .paymentType(PaymentType.valueOf(paymentTypeCmb.getSelectionModel().getSelectedItem()))
+                                .build();
+                PaymentService.save(payment);
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Saved Successful");
+                alert.show();
+                resetForm();
+            } catch (Exception e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
+                alert.show();
+            }
         });
+
+        editBtn.setOnAction(event -> {
+            try {
+                Payment payment =
+                        Payment
+                                .builder()
+                                .id(Integer.parseInt(idTxt.getText()))
+                                .title(titleTxt.getText())
+                                .price(Integer.parseInt(priceTxt.getText()))
+                                .amount(Integer.parseInt(amountTxt.getText()))
+                                .dateTime(String.valueOf(expireDate.getValue()))
+                                .description(descriptionTxt.getText())
+                                .paymentType(PaymentType.valueOf(paymentTypeCmb.getSelectionModel().getSelectedItem()))
+                                .build();
+                PaymentService.edit(payment);
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, "edited Successful");
+                alert.show();
+                resetForm();
+            } catch (Exception e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
+                alert.show();
+            }
+        });
+
+
+        deleteBtn.setOnAction(event -> {
+            try {
+
+                PaymentService.delete(Integer.parseInt(idTxt.getText()));
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, "deleted Successful");
+                alert.show();
+                resetForm();
+            } catch (Exception e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
+                alert.show();
+            }
+        });
+
+
+        paymentTbl.setOnMouseClicked(event -> {
+            Payment payment=paymentTbl.getSelectionModel().getSelectedItem();
+            idTxt.setText(String.valueOf(payment.getId()));
+            titleTxt.setText(payment.getTitle());
+            priceTxt.setText(String.valueOf(payment.getPrice()));
+            amountTxt.setText(String.valueOf(payment.getAmount()));
+            descriptionTxt.setText(payment.getDescription());
+
+        });
+
+
     }
     private void resetForm(){
+        try {
         for (PaymentType value : PaymentType.values()) {
             paymentTypeCmb.getItems().add(value.toString());
         }
@@ -64,10 +119,12 @@ public class PaymentController implements Initializable {
         expireDate.setValue(LocalDate.now());
         titleTxt.clear();
         priceTxt.clear();
-        amounttxt.clear();
+        amountTxt.clear();
         descriptionTxt.clear();
-        refreshTbl(paymentList);
-    }
+    }catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
+            alert.show();
+        }}
 
     private void refreshTbl(List<Payment>paymentList){
         ObservableList<Payment> observableList= FXCollections.observableList(paymentList);
@@ -75,7 +132,6 @@ public class PaymentController implements Initializable {
         titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
         priceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
         amountCol.setCellValueFactory(new PropertyValueFactory<>("amount"));
-
         paymentTbl.setItems(observableList);
     }
 }

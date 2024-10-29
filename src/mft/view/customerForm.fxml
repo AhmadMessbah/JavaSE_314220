@@ -44,7 +44,9 @@
             <CheckBox fx:id="activeChk" mnemonicParsing="false" text="isActive" GridPane.columnIndex="1" GridPane.rowIndex="6" />
          </children>
       </GridPane>
-      <Button fx:id="addBtn" layoutX="111.0" layoutY="400.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="111.0" text="add to repo" />
+      <Button fx:id="saveBtn" layoutX="14.0" layoutY="402.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="111.0" text="Save" />
+      <Button fx:id="editBtn" layoutX="142.0" layoutY="402.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="111.0" text="Edit" />
+      <Button fx:id="removeBtn" layoutX="269.0" layoutY="402.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="111.0" text="Rmove" />
       <TableView fx:id="customerTbl" layoutX="407.0" layoutY="37.0" prefHeight="411.0" prefWidth="439.0">
         <columns>
           <TableColumn fx:id="idCol" editable="false" prefWidth="83.0" text="id" />
@@ -54,6 +56,5 @@
           <TableColumn fx:id="activeCol" editable="false" prefWidth="79.0" text="active" />
         </columns>
       </TableView>
-      <CheckBox mnemonicParsing="false" text="CheckBox" />
    </children>
 </Pane>

@@ -5,18 +5,16 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class CustomerApp extends Application {
+public class PaymentApp extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         Scene scene = new Scene(
-                FXMLLoader.load(getClass().getResource("view/customerForm.fxml"))
+                FXMLLoader.load(getClass().getResource("view/paymentForm.fxml"))
         );
-
         primaryStage.setScene(scene);
-        primaryStage.setTitle("Customer Form");
+        primaryStage.setTitle("Product Basket");
         primaryStage.show();
     }
-
     public static void main(String[] args) {
         System.out.println("Main");
         launch();
