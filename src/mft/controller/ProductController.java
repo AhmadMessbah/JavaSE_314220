@@ -7,7 +7,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import lombok.extern.log4j.Log4j;
-import lombok.extern.slf4j.Slf4j;
 import mft.model.entity.Product;
 import mft.model.entity.enums.Category;
 import mft.model.entity.enums.TransactionType;
