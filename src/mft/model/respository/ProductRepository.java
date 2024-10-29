@@ -11,20 +11,11 @@ import java.util.List;
 
 public class ProductRepository implements AutoCloseable {
     private Connection connection;
-
-    public void connect() throws SQLException {
-        connection =
-                DriverManager.getConnection(
-                        "jdbc:oracle:thin:@localhost:1521:xe",
-//                        "jdbc:mysql://localhost:3306/mft" --> mysql
-                        "javase",
-                        "java123"
-                );
-    }
+    private PreparedStatement preparedStatement;
 
     public void save(Product product) throws SQLException {
-        connect();
-        PreparedStatement preparedStatement =
+        connection = ConnectionProvider.getConnection();
+        preparedStatement =
                 connection.prepareStatement("select product_seq.nextval as next_id from dual");
         ResultSet resultSet = preparedStatement.executeQuery();
         resultSet.next();
@@ -50,8 +41,8 @@ public class ProductRepository implements AutoCloseable {
     }
 
     public void edit(Product product) throws SQLException {
-        connect();
-        PreparedStatement preparedStatement =
+        connection = ConnectionProvider.getConnection();
+        preparedStatement =
                 connection.prepareStatement(
                         "update products" +
                                 " set name=?, price=?, quantity=?, category=?, expire_date=?, discount=?, catalogue=?, image=?, transaction_type=?" +
@@ -71,8 +62,8 @@ public class ProductRepository implements AutoCloseable {
     }
 
     public void remove(int id) throws SQLException {
-        connect();
-        PreparedStatement preparedStatement =
+        connection = ConnectionProvider.getConnection();
+        preparedStatement =
                 connection.prepareStatement(
                         "delete from products where id=?"
                 );
@@ -81,8 +72,8 @@ public class ProductRepository implements AutoCloseable {
     }
 
     public List<Product> findAll() throws SQLException {
-        connect();
-        PreparedStatement preparedStatement =
+        connection = ConnectionProvider.getConnection();
+        preparedStatement =
                 connection.prepareStatement("select * from products order by name");
 
         ResultSet resultset = preparedStatement.executeQuery();
@@ -109,8 +100,8 @@ public class ProductRepository implements AutoCloseable {
     }
 
     public Product findById(int id) throws SQLException {
-        connect();
-        PreparedStatement preparedStatement =
+        connection = ConnectionProvider.getConnection();
+        preparedStatement =
                 connection.prepareStatement("select * from products where id=?");
         preparedStatement.setInt(1, id);
 
@@ -137,8 +128,8 @@ public class ProductRepository implements AutoCloseable {
     }
 
     public List<Product> findByName(String name) throws SQLException {
-        connect();
-        PreparedStatement preparedStatement =
+        connection = ConnectionProvider.getConnection();
+        preparedStatement =
                 connection.prepareStatement("select * from products where name like ?");
         preparedStatement.setString(1, name);
 
@@ -167,6 +158,7 @@ public class ProductRepository implements AutoCloseable {
 
     @Override
     public void close() throws Exception {
+        preparedStatement.close();
         connection.close();
     }
 }
