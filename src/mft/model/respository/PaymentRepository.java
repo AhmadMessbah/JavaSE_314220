@@ -11,8 +11,8 @@ public class PaymentRepository {
 
                 DriverManager.getConnection(
                         "jdbc:oracle:thin:@localhost:1521:xe",
-                        "arshia",
-                        "arahia123"
+                        "javase",
+                        "java123"
                 );}
 
     public void disconnect() throws SQLException {
@@ -26,7 +26,7 @@ public class PaymentRepository {
         PreparedStatement preparedStatement =
                 connection.prepareStatement("insert into payment" +
                                 " (id, title,amount, date_Time, description,payment_Type )" +
-                                " VALUES (/**payment_seq.nextval**/?, ?, ?, ?, ?, ?)"
+                                " VALUES (payment_seq.nextval, ?, ?, ?, ?, ?)"
                         );
         preparedStatement.setString(1, payment.getTitle());
         preparedStatement.setInt(2, payment.getAmount());

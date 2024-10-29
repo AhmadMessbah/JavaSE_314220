@@ -42,7 +42,6 @@ public class PaymentController implements Initializable {
                 Payment payment =
                         Payment
                                 .builder()
-                                .id(Integer.parseInt(idTxt.getText()))
                                 .title(titleTxt.getText())
                                 .price(Integer.parseInt(priceTxt.getText()))
                                 .amount(Integer.parseInt(amountTxt.getText()))
