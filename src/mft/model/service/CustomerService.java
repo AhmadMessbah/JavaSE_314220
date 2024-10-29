@@ -3,18 +3,20 @@ package mft.model.service;
 import mft.model.entity.Customer;
 import mft.model.respository.CustomerRepository;
 
-import java.io.IOException;
-import java.util.List;
-
 //Bussiness Logic:
 public class CustomerService {
-    public static void saveAll(List<Customer> customerList) throws IOException {
+    public static void save(Customer customer) throws Exception {
         CustomerRepository repository = new CustomerRepository();
-        repository.saveAll(customerList);
+        repository.save(customer);
     }
 
-    public static List<Customer> findAll() throws Exception {
+    public static void edit(Customer customer) throws Exception {
         CustomerRepository repository = new CustomerRepository();
-        return repository.findAll();
+        repository.edit(customer);
+    }
+
+    public static void remove(Customer customer) throws Exception {
+        CustomerRepository repository = new CustomerRepository();
+        repository.remove(customer);
     }
 }

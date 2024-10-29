@@ -9,7 +9,7 @@ public class CustomerApp extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         Scene scene = new Scene(
-                FXMLLoader.load(getClass().getResource("veiw/customerForm.fxml"))
+                FXMLLoader.load(getClass().getResource("view/customerForm.fxml"))
         );
 
         primaryStage.setScene(scene);
