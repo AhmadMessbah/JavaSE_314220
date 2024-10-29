@@ -86,7 +86,7 @@
          </children>
       </GridPane>
       <Button fx:id="saveBtn" layoutX="46.0" layoutY="442.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="61.0" text="Save" />
-      <TableView fx:id="productTbl" layoutX="299.0" layoutY="33.0" prefHeight="442.0" prefWidth="303.0">
+      <TableView fx:id="productTbl" layoutX="299.0" layoutY="94.0" prefHeight="381.0" prefWidth="303.0">
         <columns>
           <TableColumn fx:id="idCol" prefWidth="75.0" text="Id" />
           <TableColumn fx:id="nameCol" prefWidth="75.0" text="Name" />
@@ -96,5 +96,7 @@
       </TableView>
       <Button fx:id="editBtn" layoutX="116.0" layoutY="442.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="60.0" text="Edit" />
       <Button fx:id="removeBtn" layoutX="186.0" layoutY="442.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="60.0" text="Remove" />
+      <Label layoutX="302.0" layoutY="50.0" text="Find By Name" />
+      <TextField fx:id="findNameTxt" layoutX="400.0" layoutY="46.0" prefHeight="25.0" prefWidth="200.0" />
    </children>
 </Pane>

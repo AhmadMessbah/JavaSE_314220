@@ -1,14 +1,16 @@
 package mft.model.respository;
 
+import com.mysql.cj.protocol.Resultset;
 import mft.model.entity.Product;
+import mft.model.entity.enums.Category;
+import mft.model.entity.enums.TransactionType;
 
-import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
-public class ProductRepository {
+
+public class ProductRepository implements AutoCloseable {
     private Connection connection;
 
     public void connect() throws SQLException {
@@ -21,17 +23,7 @@ public class ProductRepository {
                 );
     }
 
-    public void disconnect() throws SQLException {
-        connection.close();
-    }
-
-//    // Transaction
     public void save(Product product) throws SQLException {
-//        mysql
-//        "insert into products" +
-//                " (name, price, quantity, category, expire_date, discount, catalogue, image, transaction_type)" +
-//                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
-
         connect();
         PreparedStatement preparedStatement =
                 connection.prepareStatement(
@@ -49,9 +41,7 @@ public class ProductRepository {
         preparedStatement.setBoolean(8, product.isImage());
         preparedStatement.setString(9, product.getTransactionType().toString());
         preparedStatement.execute();
-        disconnect();
     }
-
 
     public void edit(Product product) throws SQLException {
         connect();
@@ -64,15 +54,14 @@ public class ProductRepository {
         preparedStatement.setString(1, product.getName());
         preparedStatement.setInt(2, product.getPrice());
         preparedStatement.setInt(3, product.getQuantity());
-        preparedStatement.setString(4, product.getCategory().toString());
+        preparedStatement.setString(4, product.getCategory().name());
         preparedStatement.setDate(5, Date.valueOf(product.getExpireDate()));
         preparedStatement.setInt(6, product.getDiscount());
         preparedStatement.setBoolean(7, product.isCatalogue());
         preparedStatement.setBoolean(8, product.isImage());
-        preparedStatement.setString(9, product.getTransactionType().toString());
+        preparedStatement.setString(9, product.getTransactionType().name());
         preparedStatement.setInt(10, product.getId());
         preparedStatement.execute();
-        disconnect();
     }
 
     public void remove(int id) throws SQLException {
@@ -83,16 +72,97 @@ public class ProductRepository {
                 );
         preparedStatement.setInt(1, id);
         preparedStatement.execute();
-        disconnect();
     }
 
-//    // Report
-//    public Product findById(int id) {}
-//
-//    public List<Product> findAll() {}
-//
-//    public List<Product> findByName(String name) {}
-//
+    public List<Product> findAll() throws SQLException {
+        connect();
+        PreparedStatement preparedStatement =
+                connection.prepareStatement("select * from products order by name");
+
+        ResultSet resultset = preparedStatement.executeQuery();
+
+        List<Product> productList = new ArrayList<>();
+        while (resultset.next()) {
+            Product product =
+                    Product
+                            .builder()
+                            .id(resultset.getInt("id"))
+                            .name(resultset.getString("name"))
+                            .price(resultset.getInt("price"))
+                            .quantity(resultset.getInt("quantity"))
+                            .category(Category.valueOf(resultset.getString("category")))
+                            .expireDate(resultset.getDate("expire_date").toLocalDate())
+                            .discount(resultset.getInt("discount"))
+                            .catalogue(resultset.getBoolean("catalogue"))
+                            .image(resultset.getBoolean("image"))
+                            .transactionType(TransactionType.valueOf(resultset.getString("transaction_type")))
+                            .build();
+            productList.add(product);
+        }
+        return productList;
+    }
+
+    public Product findById(int id) throws SQLException {
+        connect();
+        PreparedStatement preparedStatement =
+                connection.prepareStatement("select * from products where id=?");
+        preparedStatement.setInt(1, id);
+
+        ResultSet resultset = preparedStatement.executeQuery();
+
+        Product product = null;
+        if (resultset.next()) {
+            product =
+                    Product
+                            .builder()
+                            .id(resultset.getInt("id"))
+                            .name(resultset.getString("name"))
+                            .price(resultset.getInt("price"))
+                            .quantity(resultset.getInt("quantity"))
+                            .category(Category.valueOf(resultset.getString("category")))
+                            .expireDate(resultset.getDate("expire_date").toLocalDate())
+                            .discount(resultset.getInt("discount"))
+                            .catalogue(resultset.getBoolean("catalogue"))
+                            .image(resultset.getBoolean("image"))
+                            .transactionType(TransactionType.valueOf(resultset.getString("transaction_type")))
+                            .build();
+        }
+        return product;
+    }
+
+    public Product findByName(String name) throws SQLException {
+        connect();
+        PreparedStatement preparedStatement =
+                connection.prepareStatement("select * from products where name=?");
+        preparedStatement.setString(1, name);
+
+        ResultSet resultset = preparedStatement.executeQuery();
+
+        Product product = null;
+        if (resultset.next()) {
+            product =
+                    Product
+                            .builder()
+                            .id(resultset.getInt("id"))
+                            .name(resultset.getString("name"))
+                            .price(resultset.getInt("price"))
+                            .quantity(resultset.getInt("quantity"))
+                            .category(Category.valueOf(resultset.getString("category")))
+                            .expireDate(resultset.getDate("expire_date").toLocalDate())
+                            .discount(resultset.getInt("discount"))
+                            .catalogue(resultset.getBoolean("catalogue"))
+                            .image(resultset.getBoolean("image"))
+                            .transactionType(TransactionType.valueOf(resultset.getString("transaction_type")))
+                            .build();
+        }
+        return product;
+    }
+
 //    public int getCount(int id) {}
 
+
+    @Override
+    public void close() throws Exception {
+        connection.close();
+    }
 }

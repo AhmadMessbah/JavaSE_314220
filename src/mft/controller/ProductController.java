@@ -19,7 +19,7 @@ import java.util.ResourceBundle;
 
 public class ProductController implements Initializable {
     @FXML
-    private TextField idTxt, nameTxt, priceTxt, quantityTxt, discountTxt;
+    private TextField idTxt, nameTxt, priceTxt, quantityTxt, discountTxt, findNameTxt;
 
     @FXML
     private Button saveBtn, editBtn, removeBtn;
@@ -115,6 +115,10 @@ public class ProductController implements Initializable {
                 Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
                 alert.show();
             }
+        });
+
+        findNameTxt.setOnKeyReleased(event ->{
+            System.out.println(findNameTxt.getText());
         });
 
         productTbl.setOnMouseClicked(event -> {

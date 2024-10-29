@@ -30,3 +30,18 @@ create sequence product_seq start with 1 increment by 1;
 
 -- Find All
 -- select * from products;
+
+-- _  one character
+-- %  0...any character
+
+-- select * from PRODUCTS where name like 'A____';
+
+
+-- select sum(QUANTITY) as sum_products from PRODUCTS;
+
+-- group by / having
+-- select min(QUANTITY) as sum_products from PRODUCTS;
+-- select max(QUANTITY) as sum_products from PRODUCTS;
+-- select avg(QUANTITY) as sum_products from PRODUCTS;
+-- select sum(QUANTITY) as sum_products from PRODUCTS;
+-- select count(QUANTITY) as sum_products from PRODUCTS;

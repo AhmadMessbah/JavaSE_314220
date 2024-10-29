@@ -26,24 +26,6 @@ public class Product {
     private boolean image;
     private TransactionType transactionType;
 
-    public Product(String data) {
-        String[] productData = data.split(",");
-        id = Integer.parseInt(productData[0]);
-        name = productData[1];
-        price = Integer.parseInt(productData[2]);
-        quantity = Integer.parseInt(productData[3]);
-        category = Category.valueOf(productData[4]);
-        expireDate = LocalDate.parse(productData[5]);
-        discount = Integer.parseInt(productData[6]);
-        catalogue = Boolean.parseBoolean(productData[7]);
-        image = Boolean.parseBoolean(productData[8]);
-        transactionType = TransactionType.valueOf(productData[9]);
-    }
-
-    public String toCsv() {
-        return String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s", id, name, price, quantity, category, expireDate, discount, catalogue, image, transactionType);
-    }
-
     @Override
     public String toString() {
         Gson gson = new Gson();

@@ -17,7 +17,6 @@ public class ProductTest {
         Product product1 =
                 Product
                         .builder()
-                        .id(1)
                         .name("Asus 1230")
                         .price(1800)
                         .quantity(3)
@@ -29,23 +28,8 @@ public class ProductTest {
                         .catalogue(true)
                         .build();
 
-
-        String line = "2,mobile,7000,3,Electrical,2024-12-15,0,true,true,outcome";
-        Product product2 = new Product(line);
-
-
-        System.out.println(product1);
-        System.out.println(product2);
-
-        List<Product> productList = new ArrayList<>();
-        productList.add(product1);
-        productList.add(product2);
-
-//        ProductService.saveAll(productList);
 //        System.out.println(ProductService.findAll());
-
-        System.out.println(product1);
-        System.out.println(product1.toCsv());
-
+        System.out.println(ProductService.findById(2));
+        System.out.println(ProductService.findById(200));
     }
 }
