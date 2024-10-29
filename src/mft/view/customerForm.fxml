@@ -54,6 +54,5 @@
           <TableColumn fx:id="activeCol" editable="false" prefWidth="79.0" text="active" />
         </columns>
       </TableView>
-      <CheckBox mnemonicParsing="false" text="CheckBox" />
    </children>
 </Pane>
