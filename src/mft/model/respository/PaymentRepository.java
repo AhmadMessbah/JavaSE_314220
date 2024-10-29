@@ -1,38 +1,70 @@
 package mft.model.respository;
 
 import mft.model.entity.Payment;
+import java.sql.*;
 
-import java.io.*;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
 
 public class PaymentRepository {
+    private Connection connection;
     public void connect() throws SQLException {
-//        Connection connection;
+        connection =
 
-/**        public void connect() throws Exception{
-            connection =
-                    DriverManager.getConnection(
-                            "jdbc:oracle:thin:@localhost:1521:xe",
-                            "javase",
-                            "java123"
-                    );
-        }
+                DriverManager.getConnection(
+                        "jdbc:oracle:thin:@localhost:1521:xe",
+                        "arshia",
+                        "arahia123"
+                );}
 
-        public void disconnect() throws SQLException {
+    public void disconnect() throws SQLException {
             connection.close();
     }
 
-    public void save(Payment payment) {}
-    public void edit(Payment payment) {}
-    public void delete(Payment payment) {}
+//todo
 
-    public Payment findById(int id) {}
-    public List<Payment> findAll() {}
+    public void save(Payment payment) throws SQLException {
+        connect();
+        PreparedStatement preparedStatement =
+                connection.prepareStatement("insert into payment" +
+                                " (id, title,amount, date_Time, description,payment_Type )" +
+                                " VALUES (/**payment_seq.nextval**/?, ?, ?, ?, ?, ?)"
+                        );
+        preparedStatement.setString(1, payment.getTitle());
+        preparedStatement.setInt(2, payment.getAmount());
+        preparedStatement.setDate(3, Date.valueOf(payment.getDateTime()));
+        preparedStatement.setString(4, payment.getDescription());
+        preparedStatement.setString(5, payment.getPaymentType().toString());
+        preparedStatement.execute();
+        disconnect();
+    }
 
- **/} }
+
+    public void edit(Payment payment) throws SQLException {
+        connect();
+        PreparedStatement preparedStatement =
+                connection.prepareStatement(
+                        "update PAYMENT" +
+                                " set TITLE=?, AMOUNT=?,DATE_TIME=?, DESCRIPTION=?, PAYMENT_TYPE=?" +
+                                " where id=?"
+                );
+        preparedStatement.setString(1, payment.getTitle());
+        preparedStatement.setInt(2, payment.getAmount());
+        preparedStatement.setDate(3, Date.valueOf(payment.getDateTime()));
+        preparedStatement.setString(4, payment.getDescription());
+        preparedStatement.setString(5, payment.getPaymentType().toString());
+        preparedStatement.setInt(6, payment.getId());
+        preparedStatement.execute();
+        disconnect();
+    }
+    public void delete(int id) throws SQLException {
+        connect();
+        PreparedStatement preparedStatement =
+                connection.prepareStatement(
+                        "delete from PAYMENT where id=?"
+                );
+        preparedStatement.setInt(1, id);
+        preparedStatement.execute();
+        disconnect();
+    }
+
+   }
 

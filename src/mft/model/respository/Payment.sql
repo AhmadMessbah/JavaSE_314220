@@ -1,5 +1,5 @@
 create TABLE Payment(
-  int number PRIMARY KEY ,
+  id number PRIMARY KEY ,
   title nvarchar2(20),
   amount number,
   date_time timestamp,
