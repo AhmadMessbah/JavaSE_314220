@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 
 import static javafx.application.Application.launch;
 
-//public class PaymentTest extends Application {
+public class PaymentTest extends Application {
 //    public static void main(String[] args) throws IOException {
 //        Scene scene = new Scene(
 //                FXMLLoader.load(getClass().getResource("view/paymentForm.fxml"))
@@ -24,5 +24,7 @@ import static javafx.application.Application.launch;
 //    }
 
 //    @Override
-//    public void start(Stage primaryStage) throws Exception {
-//    }}}}
+    public void start(Stage primaryStage) throws Exception {
+//    }}
+    }
+}
