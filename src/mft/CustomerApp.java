@@ -4,7 +4,9 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import lombok.extern.log4j.Log4j;
 
+@Log4j
 public class CustomerApp extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -18,7 +20,7 @@ public class CustomerApp extends Application {
     }
 
     public static void main(String[] args) {
-        System.out.println("Main");
+        log.debug("Application started");
         launch();
     }
 }
