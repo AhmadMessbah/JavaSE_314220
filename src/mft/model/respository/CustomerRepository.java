@@ -23,7 +23,7 @@ public class CustomerRepository implements AutoCloseable{
         resultSet.next();
         customer.setId(resultSet.getInt("next_id"));
 
-        PreparedStatement preparedStatement =
+        preparedStatement =
                 connection.prepareStatement(
                         "INSERT INTO customers" +
                                 " (id, name, familyName, username, password, phone, active)" +
@@ -42,7 +42,7 @@ public class CustomerRepository implements AutoCloseable{
     public void edit(Customer customer) throws SQLException {
         connection = ConnectionProvider.getConnection();
 
-        PreparedStatement preparedStatement =
+        preparedStatement =
                 connection.prepareStatement(
                         "UPDATE customers" +
                                 " SET name=?, familyName=?, username=?, password=?, phone=?, active=?" +
@@ -62,7 +62,7 @@ public class CustomerRepository implements AutoCloseable{
     public void remove(int id) throws SQLException {
         connection = ConnectionProvider.getConnection();
 
-        PreparedStatement preparedStatement =
+        preparedStatement =
                 connection.prepareStatement(
                         "DELETE FROM customers WHERE id=?"
                 );
