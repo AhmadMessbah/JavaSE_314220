@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import lombok.extern.log4j.Log4j;
 import mft.model.entity.Customer;
 import mft.model.entity.Product;
 import mft.model.entity.enums.Category;
@@ -18,12 +19,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+@Log4j
 public class CustomerController implements Initializable {
     @FXML
-    private TextField idTxt, nameTxt, familyNameTxt, usernameTxt, passwordTxt, phoneTxt;
+    private TextField idTxt, nameTxt, familyNameTxt, usernameTxt, passwordTxt, phoneTxt, findNameTxt;
 
     @FXML
-    private Button saveBtn, editBtn, removeBtn;
+    private Button saveBtn, editBtn, removeBtn, newBtn;
 
     @FXML
     private CheckBox activeChk;
@@ -42,14 +44,19 @@ public class CustomerController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        log.debug("Customer Form Loaded");
+
         resetForm();
+
+        newBtn.setOnAction(event -> {
+            resetForm();
+        });
 
         saveBtn.setOnAction(event -> {
             try {
                 Customer customer =
                         Customer
                                 .builder()
-                                .id(Integer.parseInt(idTxt.getText()))
                                 .name(nameTxt.getText())
                                 .familyName(familyNameTxt.getText())
                                 .username(usernameTxt.getText())
@@ -57,11 +64,14 @@ public class CustomerController implements Initializable {
                                 .phone(phoneTxt.getText())
                                 .active(activeChk.isSelected())
                                 .build();
+
                 CustomerService.save(customer);
+                log.info("Customer Saved " + customer);
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "Saved Successfully");
                 alert.show();
                 resetForm();
             } catch (Exception e) {
+                log.error(e.getMessage());
                 Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
                 alert.show();
             }
@@ -80,11 +90,14 @@ public class CustomerController implements Initializable {
                                 .phone(phoneTxt.getText())
                                 .active(activeChk.isSelected())
                                 .build();
+
                 CustomerService.edit(customer);
-                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Saved Successfully");
+                log.info("Customer Edited " + customer);
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Edited Successfully");
                 alert.show();
                 resetForm();
             } catch (Exception e) {
+                log.error(e.getMessage());
                 Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
                 alert.show();
             }
@@ -92,16 +105,29 @@ public class CustomerController implements Initializable {
 
         removeBtn.setOnAction(event -> {
             try {
-                ProductService.remove(Integer.parseInt(idTxt.getText()));
+                CustomerService.remove(Integer.parseInt(idTxt.getText()));
+                log.info("Customer Removed By ID" + idTxt.getText());
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "Removed Successful");
                 alert.show();
                 resetForm();
             } catch (Exception e) {
+                log.error(e.getMessage());
                 Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
                 alert.show();
             }
         });
 
+        findNameTxt.setOnKeyReleased(event -> {
+            try {
+                List<Customer> customerList = CustomerService.findByName(findNameTxt.getText() + "%");
+                refreshTable(customerList);
+                log.info("Find Customers By Name = " + findNameTxt.getText());
+            } catch (Exception e) {
+                log.error(e.getMessage());
+                Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
+                alert.show();
+            }
+        });
 
         customerTbl.setOnMouseClicked(event -> {
             Customer customer = customerTbl.getSelectionModel().getSelectedItem();
@@ -117,16 +143,17 @@ public class CustomerController implements Initializable {
 
     private void resetForm() {
         try {
-            activeChk.setSelected(false);
-//            idTxt.setText(String.valueOf(id));
+            idTxt.clear();
             nameTxt.clear();
             familyNameTxt.clear();
             usernameTxt.clear();
             passwordTxt.clear();
             phoneTxt.clear();
             activeChk.setSelected(false);
-//            refreshTable(customerList);
+            refreshTable(CustomerService.findAll());
+            log.info("Customer Form Cleared");
         } catch (Exception e) {
+            log.error(e.getMessage());
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
             alert.show();
         }
