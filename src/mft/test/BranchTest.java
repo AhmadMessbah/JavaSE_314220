@@ -1,7 +1,6 @@
 package mft.test;
 
 import mft.model.entity.Branch;
-import mft.model.service.BranchService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,10 +27,6 @@ public class BranchTest {
         List<Branch> branchList = new ArrayList<>();
         branchList.add(branch);
         branchList.add(branchByCsv);
-
-        BranchService.saveAll(branchList);
-        System.out.println(BranchService.loadAll());
-
 
         System.out.println(branch);
         System.out.println(branch.toCsv());

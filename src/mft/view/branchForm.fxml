@@ -9,12 +9,13 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="497.0" prefWidth="631.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mft.controller.BranchController">
    <children>
-      <GridPane layoutX="46.0" layoutY="39.0" prefHeight="381.0" prefWidth="200.0">
+      <GridPane layoutX="51.0" layoutY="89.0" prefHeight="381.0" prefWidth="200.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -29,31 +30,40 @@
         </rowConstraints>
          <children>
             <Label text="Id" />
-            <Label text="title" GridPane.rowIndex="1" />
-            <Label text="address" GridPane.rowIndex="2" />
-            <Label text="phone" GridPane.rowIndex="3" />
-            <Label text="area" GridPane.rowIndex="4" />
-            <Label text="active" GridPane.rowIndex="5" />
-            <TextField fx:id="idTxt" editable="false" GridPane.columnIndex="1" />
+            <Label text="Title" GridPane.rowIndex="1" />
+            <Label text="Address" GridPane.rowIndex="2" />
+            <Label text="Phone" GridPane.rowIndex="3" />
+            <Label text="Area" GridPane.rowIndex="4" />
+            <Label text="Active" GridPane.rowIndex="5" />
+            <TextField fx:id="idTxt" editable="false" promptText="ID" GridPane.columnIndex="1" />
             <TextField fx:id="titleTxt" promptText="Enter Name" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <TextField fx:id="addressTxt" promptText="Enter Address" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <TextField fx:id="phoneTxt" promptText="Enter Phone Number" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <TextField fx:id="areaTxt" promptText="Enter Area" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <CheckBox fx:id="activeCHBX" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="0.0" textAlignment="JUSTIFY" GridPane.columnIndex="1" GridPane.rowIndex="5">
+            <CheckBox fx:id="activeCheckBox" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="0.0" textAlignment="JUSTIFY" GridPane.columnIndex="1" GridPane.rowIndex="5">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
             </CheckBox>
          </children>
       </GridPane>
-      <Button fx:id="addBtn" layoutX="93.0" layoutY="444.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="118.0" text="Add To Basket" />
-      <TableView fx:id="branchTable" layoutX="299.0" layoutY="33.0" prefHeight="442.0" prefWidth="303.0">
+      <TableView fx:id="branchTable" layoutX="299.0" layoutY="48.0" prefHeight="441.0" prefWidth="323.0">
         <columns>
           <TableColumn fx:id="idC" prefWidth="75.0" text="Id" />
           <TableColumn fx:id="titleC" prefWidth="75.0" text="Title" />
-            <TableColumn fx:id="addressC" prefWidth="75.0" text="Address" />
-            <TableColumn fx:id="phoneC" prefWidth="75.0" text="Phone" />
+            <TableColumn fx:id="addressC" prefWidth="77.0" text="Address" />
+            <TableColumn fx:id="phoneC" prefWidth="95.0" text="Phone" />
         </columns>
       </TableView>
+      <HBox alignment="CENTER" layoutX="14.0" layoutY="7.0" prefHeight="26.0" prefWidth="609.0" spacing="50.0">
+         <children>
+            <Button fx:id="btnSave" mnemonicParsing="false" prefHeight="33.0" prefWidth="118.0" text="Save" />
+            <Button fx:id="btnNew" mnemonicParsing="false" prefHeight="33.0" prefWidth="118.0" text="New" />
+            <Button fx:id="btnEdit" mnemonicParsing="false" prefHeight="33.0" prefWidth="118.0" text="Edit" />
+            <Button fx:id="btnRemove" mnemonicParsing="false" prefHeight="33.0" prefWidth="118.0" text="Remove" />
+         </children>
+      </HBox>
+      <TextField fx:id="searchBar" layoutX="14.0" layoutY="63.0" prefHeight="26.0" prefWidth="222.0" promptText="Seach" />
+      <Button fx:id="searchBtn" layoutX="251.0" layoutY="63.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="28.0" />
    </children>
 </Pane>
