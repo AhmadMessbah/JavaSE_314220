@@ -1,7 +1,7 @@
 package mft.model.service;
 
 import mft.model.entity.Contact;
-import mft.model.respository.ProductRepository;
+import mft.model.respository.ContactRepository;
 
 import java.util.List;
 
@@ -26,19 +26,19 @@ public class ContactServer {
         }
 
     public static List<Contact> findAll() throws Exception {
-        try (ProductRepository repository = new ProductRepository()) {
+        try (ContactRepository repository = new ContactRepository()) {
             return repository.findAll();
         }
     }
 
     public static Contact findById(int id) throws Exception {
-        try (ProductRepository repository = new ProductRepository()) {
+        try (ContactRepository repository = new ContactRepository()) {
             return repository.findById(id);
         }
     }
 
     public static List<Contact> findByName(String name) throws Exception {
-        try (ProductRepository repository = new ProductRepository()) {
+        try (ContactRepository repository = new ContactRepository()) {
             return repository.findByName(name);
         }
     }
