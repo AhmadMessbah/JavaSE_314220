@@ -15,10 +15,10 @@ public class ContactController implements Initializable {
 
 
     @FXML
-    private TextField idTxt, stateTxt, cityTxt ,regionTxt ,addressTxt,postallcodeTxt,phoneTxt,descriptionTxt;
+    private TextField idTxt, stateTxt, cityTxt ,regionTxt ,addressTxt,postalcodeTxt,phoneTxt,descriptionTxt,findNameTxt;
 
     @FXML
-    private Button saveBtn, editBtn, removeBtn;
+    private Button saveBtn, editBtn, removeBtn,addBtn;
 
     @FXML
     private TableView<Contact> contactTbl;

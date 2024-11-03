@@ -1,4 +1,4 @@
-package mft.view;
+package mft;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
