@@ -1,4 +1,4 @@
-package mft.model.entity.enums;
+package mft.model.entity;
 
 public enum PaymentType {
     Check,Cash,Card

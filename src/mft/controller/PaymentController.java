@@ -6,57 +6,62 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import lombok.extern.log4j.Log4j;
 import mft.model.entity.Payment;
-import mft.model.entity.enums.PaymentType;
+import mft.model.entity.PaymentType;
 import mft.model.service.PaymentService;
 
 import java.net.URL;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.ResourceBundle;
 
+@Log4j
 public class PaymentController implements Initializable {
+
     @FXML
-    private TextField idTxt,titleTxt,priceTxt,amountTxt,descriptionTxt;
+    private TextField idTxt,titleTxt,amountTxt,descriptionTxt,findNameTxt;
     @FXML
-    private DatePicker expireDate;
+    private DatePicker datePick;
     @FXML
-    private ComboBox<String> paymentTypeCmb;
+    private ComboBox<String> paymentCmb;
     @FXML
-    private TableView<Payment> paymentTbl;
-    @FXML
-    private TableColumn<Payment,String> titleCol;
-    @FXML
-    private TableColumn<Payment,Integer> priceCol,amountCol,AmountPayableCol;
-    @FXML
-    private Button calculateBtn,editBtn,deleteBtn;
+    private Button saveBtn,editBtn,removeBtn,newBtn;
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        log.debug ("Payment Form Loaded");
+
         resetForm();
 
-        calculateBtn.setOnAction(event -> {
+        newBtn.setOnAction(event -> {
+            resetForm();
+        });
+
+        saveBtn.setOnAction(event -> {
             try {
                 Payment payment =
                         Payment
                                 .builder()
                                 .title(titleTxt.getText())
-                                .price(Integer.parseInt(priceTxt.getText()))
                                 .amount(Integer.parseInt(amountTxt.getText()))
-                                .dateTime(String.valueOf(expireDate.getValue()))
+                                .dateTime(LocalDate.parse(String.valueOf(datePick.getValue())))
                                 .description(descriptionTxt.getText())
-                                .paymentType(PaymentType.valueOf(paymentTypeCmb.getSelectionModel().getSelectedItem()))
+                                .paymentType(PaymentType.valueOf(paymentCmb.getSelectionModel().getSelectedItem()))
                                 .build();
+
+                payment.setAmount(Integer.parseInt(amountTxt.getText()));
+
                 PaymentService.save(payment);
+                log.info("Product Saved " + payment);
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "Saved Successful");
                 alert.show();
                 resetForm();
             } catch (Exception e) {
+                log.error(e.getMessage());
                 Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
-                alert.show();
-            }
+                alert.show();}
         });
 
         editBtn.setOnAction(event -> {
@@ -64,73 +69,69 @@ public class PaymentController implements Initializable {
                 Payment payment =
                         Payment
                                 .builder()
-                                .id(Integer.parseInt(idTxt.getText()))
                                 .title(titleTxt.getText())
-                                .price(Integer.parseInt(priceTxt.getText()))
                                 .amount(Integer.parseInt(amountTxt.getText()))
-                                .dateTime(String.valueOf(expireDate.getValue()))
+                                .dateTime(LocalDate.parse(String.valueOf(datePick.getValue())))
                                 .description(descriptionTxt.getText())
-                                .paymentType(PaymentType.valueOf(paymentTypeCmb.getSelectionModel().getSelectedItem()))
+                                .paymentType(PaymentType.valueOf(paymentCmb.getSelectionModel().getSelectedItem()))
                                 .build();
+
                 PaymentService.edit(payment);
-                Alert alert = new Alert(Alert.AlertType.INFORMATION, "edited Successful");
+                log.info("Product Edited " + payment);
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Edited Successful");
                 alert.show();
                 resetForm();
             } catch (Exception e) {
+                log.error(e.getMessage());
                 Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
-                alert.show();
-            }
+                alert.show();}
         });
 
 
-        deleteBtn.setOnAction(event -> {
+        removeBtn.setOnAction(event -> {
             try {
-
-                PaymentService.delete(Integer.parseInt(idTxt.getText()));
-                Alert alert = new Alert(Alert.AlertType.INFORMATION, "deleted Successful");
+                PaymentService.remove(Integer.parseInt(idTxt.getText()));
+                log.info("Product Removed By ID =" + idTxt.getText());
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Removed Successful");
                 alert.show();
                 resetForm();
             } catch (Exception e) {
+                log.error(e.getMessage());
                 Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
                 alert.show();
             }
         });
 
 
-        paymentTbl.setOnMouseClicked(event -> {
-            Payment payment=paymentTbl.getSelectionModel().getSelectedItem();
-            idTxt.setText(String.valueOf(payment.getId()));
-            titleTxt.setText(payment.getTitle());
-            priceTxt.setText(String.valueOf(payment.getPrice()));
-            amountTxt.setText(String.valueOf(payment.getAmount()));
-            descriptionTxt.setText(payment.getDescription());
-
-        });
-
-
     }
-    private void resetForm(){
-        try {
-        for (PaymentType value : PaymentType.values()) {
-            paymentTypeCmb.getItems().add(value.toString());
+
+    private void resetForm() {
+            try {
+                for (PaymentType value : PaymentType.values()) {
+                    paymentCmb.getItems().add(value.toString());
+                }
+                paymentCmb.getSelectionModel().select(2);
+
+                datePick.setValue(LocalDate.now());
+
+                idTxt.clear();
+                titleTxt.clear();
+                amountTxt.clear();
+                descriptionTxt.clear();
+                //refreshTable(PaymentService.findAll());
+            } catch (Exception e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
+                alert.show();}
         }
-        paymentTypeCmb.getSelectionModel().select(2);
-        expireDate.setValue(LocalDate.now());
-        titleTxt.clear();
-        priceTxt.clear();
-        amountTxt.clear();
-        descriptionTxt.clear();
-    }catch (Exception e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
-            alert.show();
-        }}
 
-    private void refreshTbl(List<Payment>paymentList){
-        ObservableList<Payment> observableList= FXCollections.observableList(paymentList);
+        /**private void refreshTable(List<Payment> paymentList) {
+         ObservableList<Payment> observableList = FXCollections.observableList(paymentList);
 
-        titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
-        priceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
-        amountCol.setCellValueFactory(new PropertyValueFactory<>("amount"));
-        paymentTbl.setItems(observableList);
+         idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+         titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
+         amountCol.setCellValueFactory(new PropertyValueFactory<>("amount"));
+         paymentTbl.setItems(observableList);
+         }
+         **/
     }
-}
+
